@@ -19,13 +19,13 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('v1')->group(function () {
     Route::post('/register', [AuthController::class, 'register'])->name('register');
     Route::post('/login', [AuthController::class, 'login'])->name('login');
-    Route::get('/posts', [PostController::class, 'index']);
-    Route::get('/posts/{post}', [PostController::class, 'show']);
-    Route::get('/posts/{post}/comments', [CommentController::class , 'index']);
+    Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+    Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
+    Route::get('/posts/{post}/comments', [CommentController::class , 'index'])->name('posts.comments.index');
 });
 
 Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    Route::resource('/posts', PostController::class)->except(['show', 'edit', 'create', 'index']);
-    Route::post('/posts/{post}/comments', [CommentController::class , 'store']);
+    Route::resource('/posts', PostController::class)->only(['store','update','destroy']);
+    Route::post('/posts/{post}/comments', [CommentController::class , 'store'])->name('posts.comments.store');
 });
