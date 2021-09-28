@@ -23,7 +23,7 @@ class CommentTest extends TestCase
     {
         $user = User::factory()->create();
         $post = Post::factory()->create(['user_id'=>$user->id]);
-        $comment = Comment::factory()->raw(['post_id'=>$post->id]);
+        $comment = Comment::factory()->raw(['post_id'=>null]);
         $this->actingAs($user)
             ->postJson(route('posts.comment.store', ['post' => $post]), $comment);
         $this->assertDatabaseHas('comments',$comment);

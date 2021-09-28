@@ -16,13 +16,10 @@ use App\Http\Controllers\API\v1\AuthenticationController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
 Route::group(['prefix' => 'v1'], function () {
 
     Route::post('/register', [AuthenticationController::class, 'register']);
-
     Route::post('/signin', [AuthenticationController::class, 'signin']);
-
     Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/profile', function (Request $request) {
             return auth()->user();
@@ -30,13 +27,16 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('/sign-out', [AuthenticationController::class, 'logout']);
     });
 });
-//Post
-Route::get('posts', [PostController::class, 'index']);
-Route::post('posts', [PostController::class, 'store']);
-Route::get('posts/{post}', [PostController::class, 'show']);
-Route::put('posts/{post}', [PostController::class, 'update']);
-Route::delete('posts/{post}', [PostController::class, 'destroy']);
 
+Route::middleware('auth:sanctum')->group(function (){
+    //Post
+    Route::get('posts', [PostController::class, 'index']);
+    Route::post('posts', [PostController::class, 'store']);
+//    Route::get('posts/{post}', [PostController::class, 'show']);
+    Route::put('posts/{post}', [PostController::class, 'update']);
+    Route::delete('posts/{post}', [PostController::class, 'destroy']);
 // Comment routes
-Route::post('posts/{post}/comments', [CommentController::class, 'postcomment']);
+    Route::post('posts/{post}/comments', [CommentController::class, 'store']);
+});
+
 

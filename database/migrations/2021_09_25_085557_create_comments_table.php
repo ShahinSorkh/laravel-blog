@@ -17,8 +17,8 @@ class CreateCommentsTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('body');
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('post_id')->constrained();
+            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('post_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
 
         });

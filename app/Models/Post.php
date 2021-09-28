@@ -7,19 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+
     use HasFactory;
-    protected $fillable = ['title','body','user_id'];
-    /**
-     * @var mixed
-     */
 
+    protected $fillable = ['title', 'body', 'user_id'];
 
-    public function User()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function Comments()
+    public function comments()
     {
         return $this->hasMany(Comment::class);
     }
